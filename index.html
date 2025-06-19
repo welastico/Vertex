@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertex Digital Studio - La Tua Agenzia Social Media</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font Merriweather per la citazione -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF; /* Testo generale impostato su bianco per le sezioni senza sfondo */
+            /* Ripristinato lo sfondo fisso con gradiente circolare originale */
+            background: radial-gradient(circle at 0% 0%, #ff1700, #ff6e14, #ff8c14);
+            background-attachment: fixed;
+            background-color: #FFFFFF; /* Sfondo bianco di fallback, ma il gradiente sarà visibile */
+        }
+        .text-orange-custom {
+            color: #FF8C00; /* Arancione principale */
+        }
+        /* .bg-orange-custom è ora usato solo come colore di fallback o per altri elementi */
+        .border-orange-custom {
+            border-color: #FF8C00; /* Bordo arancione */
+        }
+        /* Custom styles for the hero background image */
+        .hero-background {
+            /* Immagine di sfondo fornita dall'utente */
+            background-image: url('https://blog.marenauta.com/wp-content/uploads/2023/10/01-COSTA.jpg');
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            /* Aggiunge una leggera sovrapposizione scura per migliorare la leggibilità del testo bianco */
+            background-blend-mode: multiply;
+            background-color: rgba(0, 0, 0, 0.1); /* Reso meno scuro per un'immagine più luminosa */
+        }
+        /* Social icon sizing and spacing for footer */
+        .social-icon-footer {
+            font-size: 1.75rem; /* Large icon size */
+            color: #FFFFFF; /* White color for icons on dark footer */
+            transition: color 0.3s ease; /* Smooth transition for hover effect */
+        }
+        .social-icon-footer:hover {
+            color: #FF8C00; /* Orange on hover */
+        }
+        /* Social icon sizing and spacing for contact section */
+        .social-icon-contact {
+            font-size: 2rem; /* Slightly larger for contact section */
+            color: #FFFFFF; /* White color for icons on light background */
+            transition: color 0.3s ease; /* Smooth transition for hover effect */
+        }
+        .social-icon-contact:hover {
+            color: #FF8C00; /* Orange on hover */
+        }
+        /* Icon sizing for service cards */
+        .service-icon {
+            font-size: 3rem; /* Adjusted size to match original SVG size visually */
+            color: #FF8C00; /* Custom orange color */
+        }
+
+        /* Styles for scroll-triggered animations (for sections below hero) */
+        .scroll-fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar con gradiente lineare */
+        .navbar-gradient {
+            background: linear-gradient(90deg, #ff3131, #ff914d);
+        }
+        /* Link di navigazione bianchi */
+        .nav-link-white {
+            color: #FFFFFF; /* Testo bianco */
+            transition: opacity 0.3s ease; /* Transizione fluida per effetto hover */
+            font-size: 0.875rem; /* Ridotto per armonia e spazio */
+        }
+        .nav-link-white:hover {
+            opacity: 0.8; /* Leggera opacità all'hover */
+        }
+
+        /* Gradiente per il bottone */
+        .button-gradient-orange {
+            background: linear-gradient(90deg, #ff3131, #ff914d);
+            transition: background-position 0.3s ease, transform 0.3s ease;
+            background-size: 200% auto; /* Per l'effetto hover */
+        }
+        .button-gradient-orange:hover {
+            background-position: right center; /* Sposta il gradiente all'hover */
+            transform: scale(1.05); /* Mantieni l'effetto di scalatura esistente */
+        }
+
+        /* Stili per nascondere la scrollbar per Firefox */
+        .carousel-scroll-container {
+            scrollbar-width: none; /* Firefox */
+        }
+        /* Stili per nascondere la scrollbar per Webkit (Chrome, Safari, Edge) */
+        .carousel-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Stile specifico per il font Merriweather nella citazione */
+        .font-merriweather-quote {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Stili per i bottoni di navigazione del carosello */
+        .carousel-nav-button {
+            background-color: rgba(255, 255, 255, 0.2); /* Sfondo semi-trasparente */
+            color: #FFFFFF;
+            border: none;
+            border-radius: 50%;
+            width: 35px; /* Ridotto da 40px */
+            height: 35px; /* Ridotto da 40px */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10; /* Per essere sopra il carosello */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .carousel-nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.4); /* Più visibile all'hover */
+            transform: translateY(-50%) scale(1.1);
+        }
+        .carousel-nav-button.left {
+            left: 5px; /* Spostato più all'interno da -20px */
+        }
+        .carousel-nav-button.right {
+            right: 5px; /* Spostato più all'interno da -20px */
+        }
+
+        /* Stili per le card dei post - Larghezza fissa */
+        .post-card {
+            width: 220px; /* Larghezza fissa per tutte le card */
+            flex-shrink: 0; /* Assicura che le card non si rimpiccioliscano */
+        }
+
+        /* Stili per le immagini delle card dei post per renderle piccole e proporzionate */
+        .post-card img {
+            width: 80px; /* Larghezza fissa */
+            height: 80px; /* Altezza fissa */
+            object-fit: cover; /* Assicura che l'immagine copra l'area mantenendo le proporzioni */
+            margin-left: auto; /* Centra l'immagine orizzontalmente */
+            margin-right: auto; /* Centra l'immagine orizzontalmente */
+            border-radius: 8px; /* Bordo leggermente arrotondato */
+        }
+
+        /* Testo più piccolo e compatto per adattarsi meglio nelle card */
+        .post-card h3 {
+            font-size: 0.95rem; /* Leggermente più piccolo */
+            line-height: 1.25; /* Più compatto */
+            word-wrap: break-word; /* Assicura che le parole lunghe vadano a capo */
+            overflow: hidden; /* Nasconde il testo che sborda verticalmente */
+            text-overflow: ellipsis; /* Aggiunge i puntini di sospensione se il testo è troppo lungo */
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limita a 2 righe */
+            -webkit-box-orient: vertical;
+        }
+        .post-card p.text-sm {
+            font-size: 0.7rem; /* Ancora più piccolo */
+            line-height: 1.3; /* Più compatto */
+            word-wrap: break-word; /* Assicura che le parole lunghe vadano a capo */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limita a 3 righe */
+            -webkit-box-orient: vertical;
+        }
+        .post-card p.text-xs {
+            font-size: 0.6rem; /* Il più piccolo per la fonte */
+            word-wrap: break-word; /* Assicura che le parole lunghe vadano a capo */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* Mantiene su una singola riga */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar di navigazione -->
+    <nav class="p-4 shadow-md navbar-gradient">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <!-- Logo/Nome del sito (ora reattivo per evitare il wrap) -->
+            <a href="#" class="text-white text-xl md:text-2xl font-bold whitespace-nowrap">Vertex Digital Studio</a>
+            <!-- Link di navigazione (ora bianchi per contrasto con sfondo sfumato) -->
+            <div class="flex space-x-6">
+                <a href="#chi-siamo" class="nav-link-white nav-link">Chi Siamo</a> <!-- Link "Chi Siamo" spostato prima -->
+                <a href="#cosa-facciamo" class="nav-link-white nav-link">Cosa Facciamo</a>
+                <a href="#prenota-call" class="nav-link-white nav-link">Prenota una Call</a>
+                <a href="#contatti" class="nav-link-white nav-link">Contatti</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sezione Hero -->
+    <header class="relative text-center py-24 px-4 md:px-8 shadow-md overflow-hidden bg-black">
+        <!-- Sfondo immagine digitale/astratta -->
+        <div class="hero-background"></div>
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4 animate-fade-in-down">
+                <span class="text-white">Vertex Digital Studio</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-8 animate-fade-in-up">
+                Trasformiamo la tua presenza online in successi concreti
+            </p>
+            <a href="#prenota-call" class="inline-block bg-orange-custom text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-orange-600 transition duration-300 transform hover:scale-105 animate-bounce-in">
+                Prenota una call gratuita
+            </a>
+        </div>
+    </header>
+
+    <!-- Contenuto principale inizia qui -->
+    <main>
+        <!-- Sezione "Chi siamo" -->
+        <section id="chi-siamo" class="py-16 px-4 md:px-8 rounded-lg mx-4 md:mx-auto max-w-4xl mt-12 shadow-sm text-center scroll-fade-in">
+            <h2 class="text-4xl font-bold text-white mb-8">Chi siamo</h2>
+            <p class="text-lg text-white leading-relaxed">
+                Vertex Digital Studio nasce con un solo grande obbiettivo: comunicare. Comunicare non è riempire uno spazio. È dare forma a un’identità. Crediamo che la differenza oggi, la faccia chi ha qualcosa da dire e sceglie il modo giusto per farlo. Ogni brand ha una voce unica. Il nostro lavoro è costruire la strategia che la faccia emergere con coerenza, forza e direzione. Niente formule preconfezionate, solo percorsi su misura per chi vuole davvero distinguersi. Se anche tu non cerchi solo visibilità, ma significato, sei nel posto giusto!
+            </p>
+        </section>
+
+        <!-- Sezione "Cosa Facciamo" -->
+        <section id="cosa-facciamo" class="py-16 px-4 md:px-8 rounded-lg mx-4 md:mx-auto max-w-6xl mt-12 shadow-sm">
+            <h2 class="text-4xl font-bold text-center text-white mb-12 scroll-fade-in">Cosa Facciamo</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Servizio 1: Strategia Social Media -->
+                <div class="bg-white p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300 scroll-fade-in">
+                    <div class="text-orange-custom mb-4 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3 text-center">Strategia Social Media</h3>
+                    <p class="text-gray-700 text-center">
+                        Sviluppiamo strategie personalizzate per aumentare la tua visibilità e engagement sui principali social network.
+                    </p>
+                </div>
+                <!-- Servizio 2: Creazione Contenuti -->
+                <div class="bg-white p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300 scroll-fade-in">
+                    <div class="text-orange-custom mb-4 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3 text-center">Creazione Contenuti</h3>
+                    <p class="text-gray-700 text-center">
+                        Produciamo contenuti originali e di qualità (testi, grafiche, video) che risuonano con il tuo pubblico.
+                    </p>
+                </div>
+                <!-- Servizio 3: Gestione Campagne Ads - Icona migliorata -->
+                <div class="bg-white p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300 scroll-fade-in">
+                    <div class="mb-4 flex justify-center">
+                        <i class="fas fa-bullhorn service-icon"></i> <!-- Nuova icona Font Awesome -->
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3 text-center">Gestione Campagne Ads</h3>
+                    <p class="text-gray-700 text-center">
+                        Ottimizziamo le tue campagne pubblicitarie per massimizzare il ROI e raggiungere i tuoi obiettivi.
+                    </p>
+                </div>
+            </div>
+            <!-- Citazione e immagine affiancate -->
+            <div class="mt-16 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 scroll-fade-in">
+                <!-- Contenitore per la citazione (sinistra) -->
+                <div class="w-full md:w-1/2 p-4 text-center">
+                    <blockquote class="text-3xl md:text-4xl font-bold leading-tight text-white mb-4 font-merriweather-quote">
+                        "Le persone non comprano prodotti, comprano storie, relazioni e magia."
+                    </blockquote>
+                    <p class="text-lg text-white font-medium">
+                        Come ogni azienda ha una storia diversa, noi creiamo la strategia su misura per te
+                    </p>
+                </div>
+                <!-- Contenitore per l'immagine (destra) -->
+                <div class="w-full md:w-1/2 p-4 flex justify-center items-center">
+                    <img src="https://img.freepik.com/vettori-premium/lavoro-di-squadra-per-costruire-insieme-un-puzzle-di-successo_1305385-84955.jpg?w=826"
+                         alt="Lavoro di squadra per costruire un puzzle di successo"
+                         class="w-full h-auto rounded-lg shadow-md">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione "Prenota una Call" (nuova posizione) -->
+        <section id="prenota-call" class="py-16 px-4 md:px-8 rounded-lg mx-4 md:mx-auto max-w-6xl mt-12 shadow-sm">
+            <h2 class="text-4xl font-bold text-center text-white mb-12 scroll-fade-in">Prenota una Call</h2>
+            <p class="text-white text-center mb-8 max-w-2xl mx-auto scroll-fade-in">
+                Utilizza il calendario qui sotto per prenotare la tua consulenza gratuita. Scegli il giorno e l'ora che preferisci!
+            </p>
+            <!-- Calendly Widget -->
+            <div class="calendly-inline-widget max-w-xl mx-auto rounded-lg shadow-md scroll-fade-in" data-url="https://calendly.com/vertexdigitalgroupit/30min" style="min-width:320px;height:700px;"></div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            <!-- Fine Calendly Widget -->
+        </section>
+
+        <!-- Sezione "Contatti" (nuova posizione) -->
+        <section id="contatti" class="py-16 px-4 md:px-8 rounded-lg mx-4 md:mx-auto max-w-6xl mt-12 shadow-sm">
+            <h2 class="text-4xl font-bold text-center text-white mb-12 scroll-fade-in">Contatti</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 text-lg scroll-fade-in">
+                <div class="flex items-center space-x-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-orange-custom" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    <a href="mailto:vertexdigitalgroupit@gmail.com" class="text-white hover:text-orange-custom transition duration-300">vertexdigitalgroupit@gmail.com</a>
+                </div>
+            </div>
+            <!-- Social Media Icons in Contact section -->
+            <div class="flex justify-center space-x-6 mt-8 scroll-fade-in">
+                <a href="https://www.facebook.com/share/12E7yZxZkrD/" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook social-icon-contact"></i>
+                </a>
+                <a href="https://www.instagram.com/vertexdigitalstudio?utm_source=ig_web_button_share_sheet&igsh=aW12dXE5dTQzbTZm" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram social-icon-contact"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/vertexdigitalstudio?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin social-icon-contact"></i>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-white py-8 px-4 md:px-8 mt-12 bg-black"> <!-- Modificato da navbar-gradient a bg-black -->
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <p class="text-sm mb-4 md:mb-0 text-white">&copy; 2024 Vertex Digital Studio. Tutti i diritti riservati.</p>
+            <nav class="flex space-x-6 mb-4 md:mb-0">
+                <a href="#" class="text-white hover:text-gray-300 transition duration-300 text-sm">Privacy Policy</a> <!-- Modificato da text-gray-300 a text-white -->
+                <a href="#" class="text-white hover:text-gray-300 transition duration-300 text-sm">Termini di Servizio</a> <!-- Modificato da text-gray-300 a text-white -->
+            </nav>
+            <!-- Social Media Icons in Footer -->
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="https://www.facebook.com/share/12E7yZxZkrD/" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook social-icon-footer"></i>
+                </a>
+                <a href="https://www.instagram.com/vertexdigitalstudio?utm_source=ig_web_button_share_sheet&igsh=aW12dXE5dTQzbTZm" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram social-icon-footer"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/vertexdigitalstudio?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin social-icon-footer"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animazioni CSS-like con classi Tailwind per l'hero section
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroTitle = document.querySelector('.animate-fade-in-down');
+            const heroSubtitle = document.querySelector('.animate-fade-in-up');
+            const heroButton = document.querySelector('.animate-bounce-in');
+
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateY(-20px)';
+            heroSubtitle.style.opacity = '0';
+            heroSubtitle.style.transform = 'translateY(20px)';
+            heroButton.style.opacity = '0';
+            heroButton.style.transform = 'scale(0.8)';
+
+            setTimeout(() => {
+                heroTitle.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'translateY(0)';
+            }, 200);
+
+            setTimeout(() => {
+                heroSubtitle.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                heroSubtitle.style.opacity = '1';
+                heroSubtitle.style.transform = 'translateY(0)';
+            }, 500);
+
+            setTimeout(() => {
+                heroButton.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                heroButton.style.opacity = '1';
+                heroButton.style.transform = 'scale(1)';
+            }, 800);
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a.nav-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault(); // Prevent default jump behavior
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth' // Enable smooth scrolling
+                        });
+                    }
+                });
+            });
+
+            // Intersection Observer per le sezioni
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                } );
+            }, observerOptions);
+
+            // Osserva tutti gli elementi che dovrebbero animarsi allo scroll
+            document.querySelectorAll('.scroll-fade-in').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
